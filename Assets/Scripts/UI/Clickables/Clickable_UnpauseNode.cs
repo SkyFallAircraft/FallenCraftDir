@@ -8,8 +8,8 @@ public class Clickable_UnpauseNode : Clickable
 
     public override void OnClick()
     {
-            GameController.Main.pause.paused = false;
-            GameController.Main.pause.PauseGame(GameController.Main.pause.paused);
+        GameController.Main.pause.paused = false;
+        GameController.Main.pause.PauseGame(GameController.Main.pause.paused);
     }
     public override void OnHover()
     {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,13 +14,26 @@ public class GameController : MonoBehaviour
         }
     }
 
-    //Game Pause
+    //Editor References
+    public Pause pause;
+    public Clickable_SceneNode deathSceneTransition;
+
+    //Editor + Runtime values
+    [NonSerialized]
     public bool gamePaused;
 
-    /// <summary>
-    /// Pauses the game
-    /// </summary>
-    /// <param name="p">Is the game paused?</param>
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
     public void OnPaused(bool p)
     {
         gamePaused = p;

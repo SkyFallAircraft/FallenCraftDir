@@ -36,7 +36,7 @@ public class Clickable_SliderNode : Clickable
         mainCam = Camera.main;
         pos = gameObject.transform.position;
         fillBarSize = fillBar.GetComponent<SpriteRenderer>();
-        fillBarSize.size = new Vector2(GameManager.gMan.volume * upperLimit, 1);
+        //fillBarSize.size = new Vector2(GameManager.gMan.volume * upperLimit, 1);
         gameObject.transform.position = new Vector2(fillBar.transform.position.x + fillBarSize.size.x, pos.y);
     }
 

@@ -30,26 +30,22 @@ public class Pause : MonoBehaviour
 
     public void PauseGame(bool p)
     {
-        if (gameController != null)
+        if (p)
         {
-            if (p)
-            {
-                Time.timeScale = 0f;
-                pauseFilter.SetActive(true);
-                paused = true;
-                gameController.OnPaused(paused);
-                for (int i = 0; i < pauseButtons.Length; i++) pauseButtons[i].SetActive(true);
-            }
-
-            else
-            {
-                Time.timeScale = 1f;
-                pauseFilter.SetActive(false);
-                paused = false;
-                gameController.OnPaused(paused);
-                for (int i = 0; i < pauseButtons.Length; i++) pauseButtons[i].SetActive(false);
-            }
+            Time.timeScale = 0f;
+            pauseFilter.SetActive(true);
+            paused = true;
+            gameController.OnPaused(paused);
+            for (int i = 0; i < pauseButtons.Length; i++) pauseButtons[i].SetActive(true);
         }
-        else throw new System.Exception("Game controller not found, clickables will not function");
+        
+        else
+        {
+            Time.timeScale = 1f;
+            pauseFilter.SetActive(false);
+            paused = false;
+            gameController.OnPaused(paused);
+            for (int i = 0; i < pauseButtons.Length; i++) pauseButtons[i].SetActive(false);
+        }
     }
 }

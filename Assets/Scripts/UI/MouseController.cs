@@ -1,16 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-/// <summary>
-/// script checks array of colliders every frame, if mouse position hovers over collider in array,
-/// script grabs information associated with collider
-/// </summary>
 public class MouseController : MonoBehaviour
 {
-    //VARIABLES
-
     //Misc
     public Camera mainCam;
     public Vector2 mousePos;
@@ -29,7 +22,7 @@ public class MouseController : MonoBehaviour
     {
         //reassignes clickables in scene to the clickables array
         clickables = FindObjectsOfType<Clickable>();
-        
+
         //assigns the main camera in the scene to the mainCame variable
         mainCam = Camera.main;
     }
@@ -40,12 +33,12 @@ public class MouseController : MonoBehaviour
         //if the scene is any less than 2 scenes (the GameManager scene and the current loaded scene) then MouseController will...
         // ... Check for the camera and clickable objects again.
         // This is done so we have the latest main camera and clickable objects from each scene
-        if (SceneManager.sceneCount < 2)
+        /*if (SceneManager.sceneCount < 2)
         {
             mainCam = Camera.main;
             clickables = FindObjectsOfType<Clickable>();
         }
-
+        */
         //Checks if there are clickables (more accurately, does something if clickables exist)
         if (clickables != null)
         {
@@ -63,7 +56,7 @@ public class MouseController : MonoBehaviour
                         clickables[i].OnHover();
                         //Debug.Log("Hovering");
                         //this one too. sorry vince.
-                        
+
                         //If player left clicks the mouse
                         if (Input.GetKeyDown(KeyCode.Mouse0)) clickables[i].OnClick();
                         //If the player is holding down the left click
