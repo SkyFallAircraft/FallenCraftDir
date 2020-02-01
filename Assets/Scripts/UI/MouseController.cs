@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MouseController : MonoBehaviour
 {
@@ -33,12 +34,12 @@ public class MouseController : MonoBehaviour
         //if the scene is any less than 2 scenes (the GameManager scene and the current loaded scene) then MouseController will...
         // ... Check for the camera and clickable objects again.
         // This is done so we have the latest main camera and clickable objects from each scene
-        /*if (SceneManager.sceneCount < 2)
+        if (SceneManager.sceneCount < 2)
         {
             mainCam = Camera.main;
             clickables = FindObjectsOfType<Clickable>();
         }
-        */
+
         //Checks if there are clickables (more accurately, does something if clickables exist)
         if (clickables != null)
         {
@@ -48,9 +49,11 @@ public class MouseController : MonoBehaviour
                 //if clickable I has a collider attached to it, then do this...
                 if (clickables[i].myBox != null)
                 {
-
+                    //Debug.Log(JsonUtility.ToJson(clickables[i]));
+                    Debug.Log(clickables[i].myBox.OverlapPoint(mainCam.ScreenToWorldPoint(Input.mousePosition)));
+                    Debug.Log(clickables[i].myBox.transform.position);
                     //if the mouse position is hovering over the clickables collider, then do this...)
-                    if (clickables[i].myBox.OverlapPoint(mainCam.ScreenToWorldPoint(Input.mousePosition)))
+                    if (clickables[i].myBox.OverlapPoint(mainCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10))))
                     {
                         //calls OnHover
                         clickables[i].OnHover();
