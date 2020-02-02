@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager gMan;
-    //Clickable_SceneNode clickableScene;
+    Clickable_SceneNode clickableScene;
 
     //GameObjects
     //public Clickable_SliderNode VolumeSlider;
@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour
     {
         if (gMan == null)
         {
-            gMan = this;
             DontDestroyOnLoad(transform.gameObject);
             //SceneManager.activeSceneChanged += ChangedActiveScene;
             //check = true;

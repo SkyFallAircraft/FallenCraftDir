@@ -7,6 +7,7 @@ public class Clickable_SceneNode : Clickable
 {
 
     GameManager gMan;
+    AudioLibrary adLib;
 
     double transparent;
 
@@ -16,18 +17,24 @@ public class Clickable_SceneNode : Clickable
     public Color highlightColor;
     public float fadeSpeed = 0.8f;
 
+    public void Awake()
+    {
+        gMan = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+        adLib = gMan.GetComponent<AudioLibrary>();
+    }
+
     private void Update()
     {
         if (sceneChange)
         {
             transparent +=  fadeSpeed * Time.unscaledDeltaTime;
-            GameManager.gMan.fadeInOut.color = new Color(0f, 0f, 0f, (float)transparent);
+            gMan.fadeInOut.color = new Color(0f, 0f, 0f, (float)transparent);
             if (transparent >= 1)
             {
                 sceneChange = false;
                 SceneManager.LoadScene(scenes);
                 transparent = 0;
-                GameManager.gMan.loaded = true;
+                gMan.loaded = true;
             }
         }
     }
@@ -36,6 +43,7 @@ public class Clickable_SceneNode : Clickable
     {
         if (scenes != null)
         {
+            adLib.Player(playerEffect.Dead, 1);
             sceneChange = true;
         }
         else
