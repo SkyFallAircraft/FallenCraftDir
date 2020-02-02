@@ -9,6 +9,7 @@ public class Pause : MonoBehaviour
     public bool paused;
     GameController gameController;
     public GameObject pauseFilter;
+    //public GameObject pauseFilterPrefab;
     public GameObject[] pauseButtons;
     GameManager gMan;
     bool check = false;
@@ -16,7 +17,7 @@ public class Pause : MonoBehaviour
     private void Start()
     {
         gameController = GetComponent<GameController>();
-        pauseFilter = GameObject.FindWithTag("PauseFilter");
+        //Debug.Log(pauseFilter);
         paused = false;
         PauseGame(paused);
     }
@@ -24,49 +25,42 @@ public class Pause : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if((Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape)))
+        if(((Input.GetKeyDown(KeyCode.P) /*&& paused*/)|| (Input.GetKeyDown(KeyCode.Escape) /*&& paused*/)))
         {
             paused = !paused;
             PauseGame(paused);
         }
-        if(SceneManager.sceneCount < 2)
+        /*else if(((Input.GetKeyDown(KeyCode.P) && !paused) || (Input.GetKeyDown(KeyCode.Escape) && !paused)))
         {
-            pauseFilter = GameObject.FindWithTag("pauseFilter");
-            if (pauseFilter) pauseFilter.SetActive(false);
-        }
-        if (gMan.loaded == false && check == false)
-        {
-            pauseFilter.SetActive(false);
-            check = false;
-        }
+            paused = true;
+            PauseGame(paused);
+        }*/
     }
 
     public void PauseGame(bool p)
     {
+        //pauseFilter = GameObject.FindWithTag("PauseFilter");
+        Debug.Log(pauseFilter);
         if (p)
         {
+            Debug.Log("PausedGame");
             Time.timeScale = 0f;
-            if (pauseFilter != null)
-            {
-                pauseFilter.SetActive(true);
-            }
-            else
-            {
-                pauseFilter = GameObject.FindWithTag("PauseFilter");
-                pauseFilter.SetActive(true);
-            }
+            pauseFilter.SetActive(true);
+            Debug.Log("Active: " + pauseFilter.activeSelf);
+            //if(pauseFilter = null) Debug.LogError("pauseFilter null");
             paused = true;
-            gameController.OnPaused(paused);
-            for (int i = 0; i < pauseButtons.Length; i++) pauseButtons[i].SetActive(true);
+            //gameController.OnPaused(paused);
+            //for (int i = 0; i < pauseButtons.Length; i++) pauseButtons[i].SetActive(true);
         }
-        
         else
         {
+            Debug.Log("UnpausedGame");
             Time.timeScale = 1f;
             pauseFilter.SetActive(false);
+            Debug.Log("Not active: " + pauseFilter.activeSelf);
             paused = false;
-            gameController.OnPaused(paused);
-            for (int i = 0; i < pauseButtons.Length; i++) pauseButtons[i].SetActive(false);
+            //gameController.OnPaused(paused);
+            //for (int i = 0; i < pauseButtons.Length; i++) pauseButtons[i].SetActive(false);
         }
     }
 }
