@@ -39,6 +39,10 @@ public class PlayerMoveController : MonoBehaviour {
   public float glideSpeedX;
   public float glideSpeedY;
 
+  private bool canDoubleJump = false;
+  private bool doubleJumpAvailable = false;
+  public float doubleJumpSpeed;
+
   private bool doOnce = false;
 
   public GameManager gMan;
@@ -99,6 +103,11 @@ public class PlayerMoveController : MonoBehaviour {
         // jumpTimeCounter = jumpTime;
         Launch();
         //rb.velocity = Vector2.up * jumpForce;
+      }
+      //double Jump
+      else if(canDoubleJump && doubleJumpAvailable){
+        rb.velocity = Vector2.up * doubleJumpSpeed;
+        doubleJumpAvailable = false;
       }
     }
 
@@ -185,6 +194,12 @@ public class PlayerMoveController : MonoBehaviour {
 
     if(isGrounded || isTouchingLowerWall){
       isGliding = false;
+      //reset double jump when touching a wall or the ground
+      doubleJumpAvailable = true;
+    }
+    if(!isGrounded && !isWallSliding){
+      //can double jump any time not touching a wall or the ground
+      canDoubleJump = true;
     }
   }
 
