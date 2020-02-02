@@ -320,21 +320,6 @@ public class PlayerMoveController : MonoBehaviour {
       }
   }
 
-  void OnTriggerEnter2D(Collider other){
-    Debug.Log("ENTERED TRIGGER");
-    Debug.Log(other.tag);
-    //todo delete power up
-    if(other.CompareTag("doubleJump")){
-      hasDoubleJump = true;
-    }
-    else if(other.CompareTag("hookShot")){
-      hasHookShot = true;
-    }
-    else if(other.CompareTag("glider")){
-      hasGlide = true;
-    }
-
-  }
 
   void OnCollisionEnter2D(Collision2D collision){
     if(collision.gameObject.tag == "doubleJump"){
