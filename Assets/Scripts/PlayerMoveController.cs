@@ -320,21 +320,6 @@ public class PlayerMoveController : MonoBehaviour {
       }
   }
 
-  void OnTriggerEnter2D(Collider other){
-    Debug.Log("ENTERED TRIGGER");
-    Debug.Log(other.tag);
-    //todo delete power up
-    if(other.CompareTag("doubleJump")){
-      hasDoubleJump = true;
-    }
-    else if(other.CompareTag("hookShot")){
-      hasHookShot = true;
-    }
-    else if(other.CompareTag("glider")){
-      hasGlide = true;
-    }
-
-  }
 
   void OnCollisionEnter2D(Collision2D collision){
     if(collision.gameObject.tag == "doubleJump"){
@@ -344,6 +329,21 @@ public class PlayerMoveController : MonoBehaviour {
     else if(collision.gameObject.tag == "glide"){
       hasGlide = true;
       Destroy(collision.gameObject);
+    }
+    else if(collision.gameObject.tag == "ship"){
+      if(hasGlide){
+        //BOAZ DO SOMETHING HERE TO ADD GLIDER TO THE SHIP
+      }
+      if(hasDoubleJump){
+        //BOAZ DO SOMETHING HERE TO ADD THRUSTER TO SHIP
+      }
+      //turn off all powerups
+      hasGlide = false;
+      hasDoubleJump = false;
+    }
+    else if(collision.gameObject.tag == "spike"){
+      //if you hit a spike you die
+      KillPlayer();
     }
 
   }
