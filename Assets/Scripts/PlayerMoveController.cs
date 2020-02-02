@@ -39,13 +39,21 @@ public class PlayerMoveController : MonoBehaviour {
   public float glideSpeedX;
   public float glideSpeedY;
 
+  private bool canDoubleJump = false;
+  private bool doubleJumpAvailable = false;
+  public float doubleJumpSpeed;
+
   private bool doOnce = false;
+
+  public GameManager gMan;
 
   void Start(){
     rb = GetComponent<Rigidbody2D>();
     isGrounded = true;
 
     leapPressure = 0f;
+    //gMan = GameObject.findWithTag("GameManager").GetComponent<GameManager>();
+    //gMan.GetComponent<AudioLibrary>().Player(playerEffect.[sound effect name], [volume]);
   }
 
   void Update(){
@@ -58,8 +66,24 @@ public class PlayerMoveController : MonoBehaviour {
 
   private void FixedUpdate(){
     CheckMoveInput();
-    CheckMovementDirection();
+    if(!isGliding){
+      CheckMovementDirection();
+    }
+
   }
+
+  private void Launch()
+ {
+    Debug.Log("LANCH");
+     leapPressure = Mathf.Clamp(leapPressure, minWallLeap, maxWallLeap);
+     Vector2 push = new Vector2((transform.right.x * -leapPressure), (transform.up.y * leapPressure));
+
+     rb.AddForce(push, ForceMode2D.Impulse);
+
+     leapPressure = 0f;
+     Flip();
+
+ }
 
   private void CheckJump(){
     if(Input.GetKeyDown(KeyCode.Space)){
@@ -75,9 +99,15 @@ public class PlayerMoveController : MonoBehaviour {
       //wall Jump rules
       else if(isWallSliding){
         Debug.Log("WALL JUMP");
-        isJumping = true;
-        jumpTimeCounter = jumpTime;
-        rb.velocity = Vector2.up * jumpForce;
+        // isJumping = true;
+        // jumpTimeCounter = jumpTime;
+        Launch();
+        //rb.velocity = Vector2.up * jumpForce;
+      }
+      //double Jump
+      else if(canDoubleJump && doubleJumpAvailable){
+        rb.velocity = Vector2.up * doubleJumpSpeed;
+        doubleJumpAvailable = false;
       }
     }
 
@@ -112,14 +142,14 @@ public class PlayerMoveController : MonoBehaviour {
     if(isGrounded){
 
     }
-    //rules for wall movement
-    else if(isWallSliding){
-      //go no faster than the wallSlideSpeed
-      if(rb.velocity.y < -wallSlideSpeed){
-        rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
-      }
-      //TODO: break from wall
-    }
+    // //rules for wall movement
+    // else if(isWallSliding){
+    //   //go no faster than the wallSlideSpeed
+    //   if(rb.velocity.y < -wallSlideSpeed){
+    //     rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+    //   }
+    //
+    // }
     //rules for air movement
     else{
 
@@ -161,6 +191,16 @@ public class PlayerMoveController : MonoBehaviour {
 
     isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
     isTouchingLowerWall = Physics2D.Raycast(lowerWallCheck.position, transform.right, wallCheckDistance, whatIsWall);
+
+    if(isGrounded || isTouchingLowerWall){
+      isGliding = false;
+      //reset double jump when touching a wall or the ground
+      doubleJumpAvailable = true;
+    }
+    if(!isGrounded && !isWallSliding){
+      //can double jump any time not touching a wall or the ground
+      canDoubleJump = true;
+    }
   }
 
   private void OnDrawGizmos(){
@@ -188,11 +228,12 @@ public class PlayerMoveController : MonoBehaviour {
       }
       if(
       //you are trying to move right but you wall sliding into a wall on the right
-      (moveInputDirection == 1 &&  isFacingRight && isWallSliding) ||
+      (Input.GetKey("d") &&  isFacingRight && isWallSliding) ||
       //you are trying to move left but you wall sliding into a wall on the left
-      (moveInputDirection == -1 && !isFacingRight && isWallSliding)
+      (Input.GetKey("a") && !isFacingRight && isWallSliding)
       ){
-        //don't do anything
+        //Apply WallSlide movement rules
+        ApplyWallSlide();
       }
       else{
         //movement while gliding
@@ -200,7 +241,7 @@ public class PlayerMoveController : MonoBehaviour {
           Debug.Log("GLIDING");
           int glideDirection = isFacingRight ? 1 : -1;
           rb.gravityScale = 0;
-          rb.position = (rb.position + new Vector2( glideDirection* glideSpeedX * Time.deltaTime, -glideSpeedY * Time.deltaTime));
+          rb.velocity = new Vector2( glideDirection* glideSpeedX * Time.deltaTime, -glideSpeedY * Time.deltaTime);
         }
         else{
           rb.gravityScale = 5;
