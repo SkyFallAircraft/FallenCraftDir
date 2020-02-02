@@ -43,7 +43,9 @@ public class PlayerMoveController : MonoBehaviour {
   private bool doubleJumpAvailable = false;
   public float doubleJumpSpeed;
 
-  private bool doOnce = false;
+  private bool hasDoubleJump = false;
+  private bool hasGlide = false;
+  private bool hasHookShot = false;
 
   public GameManager gMan;
 
@@ -109,7 +111,8 @@ public class PlayerMoveController : MonoBehaviour {
         //rb.velocity = Vector2.up * jumpForce;
       }
       //double Jump
-      else if(canDoubleJump && doubleJumpAvailable){
+      //need power up, legal state, and charged Jump 
+      else if( hasDoubleJump && canDoubleJump && doubleJumpAvailable){
         rb.velocity = Vector2.up * doubleJumpSpeed;
         doubleJumpAvailable = false;
       }
@@ -181,12 +184,16 @@ public class PlayerMoveController : MonoBehaviour {
     }
   }
 
-
-  //TODO : update for 3/4 assets?
   private void Flip(){
       isFacingRight = !isFacingRight;
       transform.Rotate(0.0f, 180.0f, 0.0f);
       //use this to rotate character upside down when on a ceiling. 180 first.
+  }
+
+  private void KillPlayer(){
+    //move player back to Start
+    //zero out velocity
+    //remove powerups
   }
 
   private void CheckSurroundings(){
