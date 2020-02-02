@@ -10,7 +10,16 @@ public class PlayerMoveController : MonoBehaviour {
   public float speed;
   private float moveInputDirection;
   private bool isFacingRight = true;
+  private Vector2 startLocation = new Vector2(-3, 1);
+
+  //boundaries of map
+  private float LOWER_BOUND_X = -100;
+  private float UPPER_BOUND_X = 75;
+  private float LOWER_BOUND_Y = -50;
+  private float UPPER_BOUND_Y = 55;
+
   public Animator animator;
+
   private bool isJumping;
   public float jumpForce;
   private float jumpTimeCounter;
@@ -111,7 +120,7 @@ public class PlayerMoveController : MonoBehaviour {
         //rb.velocity = Vector2.up * jumpForce;
       }
       //double Jump
-      //need power up, legal state, and charged Jump 
+      //need power up, legal state, and charged Jump
       else if( hasDoubleJump && canDoubleJump && doubleJumpAvailable){
         rb.velocity = Vector2.up * doubleJumpSpeed;
         doubleJumpAvailable = false;
@@ -192,8 +201,13 @@ public class PlayerMoveController : MonoBehaviour {
 
   private void KillPlayer(){
     //move player back to Start
+    rb.position = startLocation;
     //zero out velocity
+    rb.velocity = new Vector2(0,0);
     //remove powerups
+    hasGlide = false;
+    hasHookShot = false;
+    hasDoubleJump = false;
   }
 
   private void CheckSurroundings(){
@@ -207,19 +221,29 @@ public class PlayerMoveController : MonoBehaviour {
 
     if(isGrounded || isTouchingLowerWall){
       isGliding = false;
-            animator.SetBool("IsGliding", false);
-            //reset double jump when touching a wall or the ground
-            doubleJumpAvailable = true;
-            if (isGrounded == true)
-            {
-                animator.SetBool("IsInAir", false);
-            }
+      animator.SetBool("IsGliding", false);
+      //reset double jump when touching a wall or the ground
+      doubleJumpAvailable = true;
+      if (isGrounded == true)
+      {
+          animator.SetBool("IsInAir", false);
+      }
     }
     if(!isGrounded && !isWallSliding){
       //can double jump any time not touching a wall or the ground
       canDoubleJump = true;
-            animator.SetBool("IsInAir", true);
-        }
+      animator.SetBool("IsInAir", true);
+    }
+    //player is out of bounds
+    if(
+    rb.position.x < LOWER_BOUND_X ||
+    rb.position.x > UPPER_BOUND_X ||
+    rb.position.y < LOWER_BOUND_Y ||
+    rb.position.y > UPPER_BOUND_Y
+    ){
+      KillPlayer();
+      Debug.Log(rb.position);
+    }
   }
 
   private void OnDrawGizmos(){
