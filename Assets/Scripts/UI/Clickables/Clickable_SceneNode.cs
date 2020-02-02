@@ -27,7 +27,7 @@ public class Clickable_SceneNode : Clickable
                 sceneChange = false;
                 SceneManager.LoadScene(scenes);
                 transparent = 0;
-                //GameManager.gMan.loaded = true;
+                GameManager.gMan.loaded = true;
             }
         }
     }
