@@ -57,9 +57,12 @@ public class PlayerMoveController : MonoBehaviour {
   private bool hasHookShot = false;
 
   public GameManager gMan;
+  public AudioLibrary adLib;
 
   void Start(){
-    rb = GetComponent<Rigidbody2D>();
+        gMan = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+        adLib = gMan.GetComponent<AudioLibrary>();
+        rb = GetComponent<Rigidbody2D>();
     isGrounded = true;
 
     leapPressure = 0f;
@@ -200,6 +203,7 @@ public class PlayerMoveController : MonoBehaviour {
   }
 
   private void KillPlayer(){
+    adLib.Player(playerEffect.Dead, 1);
     //move player back to Start
     rb.position = startLocation;
     //zero out velocity

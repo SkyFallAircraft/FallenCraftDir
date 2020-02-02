@@ -28,6 +28,7 @@ public class MovingPlatformScript : MonoBehaviour
         }
 
         transform.position = Vector3.MoveTowards(transform.position, nextPos, speed * Time.deltaTime);
+
     }
 
     private void OnDrawGizmos()
