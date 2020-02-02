@@ -4,16 +4,18 @@ using UnityEngine.Audio;
 using UnityEngine;
 
 //Audio Lists
-public enum playerEffects { Attack, Damaged, MushMancy, RootWall, Cure }
+public enum playerEffect { Dead, Slide, Jump, Walk }
+public enum powerup { Glider, Thruster, Anchor, Cloud }
 public enum music { MainMenu, Background, Win }
-public enum powerups { }
+public enum misc { Repair, Crashing, }
 
 public class AudioLibrary : MonoBehaviour
 {
     //Audio List from enum to array
     public AudioClip[] player;
-    public AudioClip[] misc;
+    public AudioClip[] powerups;
     public AudioClip[] music;
+    public AudioClip[] misc;
 
     //Volume
     [Range(0, 1)]
@@ -22,14 +24,40 @@ public class AudioLibrary : MonoBehaviour
     public AudioSource musicPlayer;
 
     /// <summary>
-    /// Plays a miscelanious sound at a certain point
+    /// Player sounds
     /// </summary>
-    /// <param name="s">Miscelanious sound</param>
-    public void miscSounds(powerups s, float volume)
+    /// <param name="s">player sound</param>
+    public void Player(playerEffect s, float volume)
+    {
+        AudioSource.PlayClipAtPoint(player[(int)s], Vector3.zero, volume/* * GameManager.gMan.volume*/);
+    }
+    public void Player(playerEffect s)
+    {
+        AudioSource.PlayClipAtPoint(player[(int)s], Vector3.zero);
+    }
+
+    /// <summary>
+    /// Plays powerup sounds
+    /// </summary>
+    /// <param name="s">powerup sound</param>
+    public void Powerups(powerup s, float volume)
+    {
+        AudioSource.PlayClipAtPoint(powerups[(int)s], Vector3.zero, volume/* * GameManager.gMan.volume*/);
+    }
+    public void Powerups(powerup s)
+    {
+        AudioSource.PlayClipAtPoint(powerups[(int)s], Vector3.zero);
+    }
+
+    /// <summary>
+    /// Misc sounds
+    /// </summary>
+    /// <param name="s">misc sound</param>
+    public void Misc(misc s, float volume)
     {
         AudioSource.PlayClipAtPoint(misc[(int)s], Vector3.zero, volume/* * GameManager.gMan.volume*/);
     }
-    public void miscSounds(powerups s)
+    public void Misc(misc s)
     {
         AudioSource.PlayClipAtPoint(misc[(int)s], Vector3.zero);
     }
@@ -40,7 +68,7 @@ public class AudioLibrary : MonoBehaviour
     /// <param name="s">What clip are we playing</param>
     /// <param name="playing">Is the clip playing</param>
     /// <param name="volume">What is the audio sources volume</param>
-    public void musicSounds(music s, bool playing, float volume)
+    public void MusicSounds(music s, bool playing, float volume)
     {
         musicPlayer.clip = music[(int)s];
         Debug.Log("current s: " + s.ToString() + ", music player: " + musicPlayer.name);
@@ -55,7 +83,7 @@ public class AudioLibrary : MonoBehaviour
             musicPlayer.Stop();
         }
     }
-    public void musicSounds(music s, bool playing)
+    public void MusicSounds(music s, bool playing)
     {
         musicPlayer.clip = music[(int)s];
         Debug.Log("current s: " + s.ToString() + ", music player: " + musicPlayer.name);
