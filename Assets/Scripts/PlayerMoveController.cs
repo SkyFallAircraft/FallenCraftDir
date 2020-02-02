@@ -315,4 +315,15 @@ public class PlayerMoveController : MonoBehaviour {
           Flip();
       }
   }
+
+  private void OnTriggerEnter(Collider other){
+    Debug.Log(other.tag);
+    switch (other.tag)
+    {
+
+        default:
+            Debug.Log("Default case");
+            break;
+    }
+  }
 }
