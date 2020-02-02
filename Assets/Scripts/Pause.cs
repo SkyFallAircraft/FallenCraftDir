@@ -39,8 +39,6 @@ public class Pause : MonoBehaviour
 
     public void PauseGame(bool p)
     {
-        //pauseFilter = GameObject.FindWithTag("PauseFilter");
-        Debug.Log(pauseFilter);
         if (p)
         {
             Debug.Log("PausedGame");

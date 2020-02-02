@@ -43,7 +43,7 @@ public class Clickable_SceneNode : Clickable
     {
         if (scenes != null)
         {
-            adLib.Player(playerEffect.Dead, 1);
+            adLib.Misc(misc.Button, 0.75f);
             sceneChange = true;
         }
         else
