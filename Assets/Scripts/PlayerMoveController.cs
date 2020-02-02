@@ -180,7 +180,7 @@ public class PlayerMoveController : MonoBehaviour {
     // Debug.Log(!isGrounded);
     // Debug.Log(rb.velocity.y);
     if(isTouchingLowerWall && !isGrounded && rb.velocity.y < 0){
-      Debug.Log("WALL SLIDING");
+      //Debug.Log("WALL SLIDING");
       isWallSliding = true;
     }
     else{
@@ -191,7 +191,7 @@ public class PlayerMoveController : MonoBehaviour {
 
   private void ApplyWallSlide(){
     if(isWallSliding && rb.velocity.y < -wallSlideSpeed){
-            Debug.Log("Bobby is nice");
+            //Debug.Log("Bobby is nice");
       rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
     }
   }
@@ -320,15 +320,33 @@ public class PlayerMoveController : MonoBehaviour {
       }
   }
 
-  private void OnTriggerEnter(Collider other){
+  void OnTriggerEnter2D(Collider other){
+    Debug.Log("ENTERED TRIGGER");
     Debug.Log(other.tag);
-    switch (other.tag)
-    {
-      case "doubleJump":
-        break;
-      default:
-          Debug.Log("Default case");
-          break;
+    //todo delete power up
+    if(other.CompareTag("doubleJump")){
+      hasDoubleJump = true;
     }
+    else if(other.CompareTag("hookShot")){
+      hasHookShot = true;
+    }
+    else if(other.CompareTag("glider")){
+      hasGlide = true;
+    }
+
   }
+
+  void OnCollisionEnter2D(Collision2D collision){
+    if(collision.gameObject.tag == "doubleJump"){
+      hasDoubleJump = true;
+      Destroy(collision.gameObject);
+    }
+    else if(collision.gameObject.tag == "glide"){
+      hasGlide = true;
+      Destroy(collision.gameObject);
+    }
+
+  }
+
+
 }
