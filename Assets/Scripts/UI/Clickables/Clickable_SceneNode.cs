@@ -27,7 +27,7 @@ public class Clickable_SceneNode : Clickable
                 sceneChange = false;
                 SceneManager.LoadScene(scenes);
                 transparent = 0;
-                //GameManager.gMan.loaded = true;
+                GameManager.gMan.loaded = true;
             }
         }
     }
@@ -46,11 +46,9 @@ public class Clickable_SceneNode : Clickable
     public override void OnHover()
     {
         gameObject.GetComponent<SpriteRenderer>().color = highlightColor;
-        Debug.Log("isHovering");
     }
     public override void OnEmpty()
     {
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-        Debug.Log("isNotHovering");
     }
 }

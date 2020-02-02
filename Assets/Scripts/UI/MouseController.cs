@@ -49,9 +49,6 @@ public class MouseController : MonoBehaviour
                 //if clickable I has a collider attached to it, then do this...
                 if (clickables[i].myBox != null)
                 {
-                    //Debug.Log(JsonUtility.ToJson(clickables[i]));
-                    Debug.Log(clickables[i].myBox.OverlapPoint(mainCam.ScreenToWorldPoint(Input.mousePosition)));
-                    Debug.Log(clickables[i].myBox.transform.position);
                     //if the mouse position is hovering over the clickables collider, then do this...)
                     if (clickables[i].myBox.OverlapPoint(mainCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10))))
                     {

@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class Clickable_QuitNode : Clickable
 {
+
+    public Color highlightColor;
+
     public override void OnClick()
     {
         Application.Quit();
     }
     public override void OnHover()
     {
-        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        gameObject.GetComponent<SpriteRenderer>().color = highlightColor;
     }
     public override void OnEmpty()
     {
