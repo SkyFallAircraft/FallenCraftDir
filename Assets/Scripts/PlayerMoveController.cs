@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerMoveController : MonoBehaviour {
 
+    public ParticleSystem respawn;
+    public ParticleSystem death;
+
   private Rigidbody2D rb;
 
   public float speed;
@@ -205,8 +208,11 @@ public class PlayerMoveController : MonoBehaviour {
 
   private void KillPlayer(){
     adLib.Player(playerEffect.Dead, 1);
+        death.Play();
+
     //move player back to Start
     rb.position = startLocation;
+        respawn.Play();
     //zero out velocity
     rb.velocity = new Vector2(0,0);
     //remove powerups
