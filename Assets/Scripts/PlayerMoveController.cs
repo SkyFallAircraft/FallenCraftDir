@@ -58,7 +58,10 @@ public class PlayerMoveController : MonoBehaviour {
 
   private void FixedUpdate(){
     CheckMoveInput();
-    CheckMovementDirection();
+    if(!isGliding){
+      CheckMovementDirection();
+    }
+
   }
 
   private void CheckJump(){
@@ -161,6 +164,10 @@ public class PlayerMoveController : MonoBehaviour {
 
     isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
     isTouchingLowerWall = Physics2D.Raycast(lowerWallCheck.position, transform.right, wallCheckDistance, whatIsWall);
+
+    if(isGrounded || isTouchingLowerWall){
+      isGliding = false;
+    }
   }
 
   private void OnDrawGizmos(){
@@ -200,7 +207,7 @@ public class PlayerMoveController : MonoBehaviour {
           Debug.Log("GLIDING");
           int glideDirection = isFacingRight ? 1 : -1;
           rb.gravityScale = 0;
-          rb.position = (rb.position + new Vector2( glideDirection* glideSpeedX * Time.deltaTime, -glideSpeedY * Time.deltaTime));
+          rb.velocity = new Vector2( glideDirection* glideSpeedX * Time.deltaTime, -glideSpeedY * Time.deltaTime);
         }
         else{
           rb.gravityScale = 5;
