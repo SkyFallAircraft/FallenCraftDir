@@ -330,6 +330,17 @@ public class PlayerMoveController : MonoBehaviour {
       hasGlide = true;
       Destroy(collision.gameObject);
     }
+    else if(collision.gameObject.ship == "ship"){
+      if(hasGlide){
+        //BOAZ DO SOMETHING HERE TO ADD GLIDER TO THE SHIP
+      }
+      if(hasDoubleJump){
+        //BOAZ DO SOMETHING HERE TO ADD THRUSTER TO SHIP
+      }
+      //turn off all powerups
+      hasGlide = false;
+      hasDoubleJump = false;
+    }
 
   }
 
