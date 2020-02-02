@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager gMan;
     Clickable_SceneNode clickableScene;
+    public GameObject pauseFilterPrefab;
 
     //GameObjects
     //public Clickable_SliderNode VolumeSlider;
@@ -48,6 +49,12 @@ public class GameManager : MonoBehaviour
             //Debug.Log(fadeInOut.color.a);
             if (transparent <= 0)
             {
+                var pauseScript = gameObject.GetComponent<Pause>();
+                var pauseFilter = Instantiate(pauseFilterPrefab);
+                var mainCam = Camera.main.gameObject;
+                pauseScript.pauseFilter = pauseFilter;
+                pauseFilter.transform.parent = Camera.main.gameObject.transform;
+                pauseFilter.transform.position = new Vector3(mainCam.transform.position.x, mainCam.transform.position.y, -5);
                 Debug.Log("loaded");
                 transparent = 1;
                 loaded = false;
