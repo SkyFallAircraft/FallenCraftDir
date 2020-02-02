@@ -119,18 +119,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 867862144, guid: 59f629c49fb617f44ae1e385a64cba72, type: 3}
-      propertyPath: Loop
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1506292395, guid: 59f629c49fb617f44ae1e385a64cba72, type: 3}
-      propertyPath: music.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: a79217097f87b5249ac3e6db52e5e63b, type: 3}
-    - target: {fileID: 1506292395, guid: 59f629c49fb617f44ae1e385a64cba72, type: 3}
-      propertyPath: music.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: 954ab19a2b633f84e9e73787a8c82803, type: 3}
     - target: {fileID: 257910424767841171, guid: 59f629c49fb617f44ae1e385a64cba72,
         type: 3}
       propertyPath: m_LocalPosition.x
