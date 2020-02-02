@@ -13,10 +13,10 @@ public class PlayerMoveController : MonoBehaviour {
   private Vector2 startLocation = new Vector2(-3, 1);
 
   //boundaries of map
-  private float LOWER_BOUND_X = -100;
-  private float UPPER_BOUND_X = 75;
-  private float LOWER_BOUND_Y = -50;
-  private float UPPER_BOUND_Y = 55;
+  public float LOWER_BOUND_X = -100;
+  public float UPPER_BOUND_X = 75;
+  public float LOWER_BOUND_Y = -50;
+  public float UPPER_BOUND_Y = 55;
 
   public Animator animator;
 
@@ -324,10 +324,11 @@ public class PlayerMoveController : MonoBehaviour {
     Debug.Log(other.tag);
     switch (other.tag)
     {
-
-        default:
-            Debug.Log("Default case");
-            break;
+      case "doubleJump":
+        break;
+      default:
+          Debug.Log("Default case");
+          break;
     }
   }
 }
