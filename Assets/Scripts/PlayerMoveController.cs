@@ -10,7 +10,7 @@ public class PlayerMoveController : MonoBehaviour {
   public float speed;
   private float moveInputDirection;
   private bool isFacingRight = true;
-
+  public Animator animator;
   private bool isJumping;
   public float jumpForce;
   private float jumpTimeCounter;
@@ -43,7 +43,9 @@ public class PlayerMoveController : MonoBehaviour {
   private bool doubleJumpAvailable = false;
   public float doubleJumpSpeed;
 
-  private bool doOnce = false;
+  private bool hasDoubleJump = false;
+  private bool hasGlide = false;
+  private bool hasHookShot = false;
 
   public GameManager gMan;
 
@@ -62,6 +64,10 @@ public class PlayerMoveController : MonoBehaviour {
     // CheckJump();
     // CheckWallSlide();
     // ApplyWallSlide();
+    if(isJumping== true)
+        {
+            animator.SetBool("IsInAir", true);
+        }
   }
 
   private void FixedUpdate(){
@@ -88,12 +94,12 @@ public class PlayerMoveController : MonoBehaviour {
   private void CheckJump(){
     if(Input.GetKeyDown(KeyCode.Space)){
       Debug.Log("JUMPING");
-      //if the player is on the ground and the user is pressing the space key
-      //the user can jump
-      if (isGrounded == true)
+            //if the player is on the ground and the user is pressing the space key
+            //the user can jump
+            if (isGrounded == true)
       {
           isJumping = true;
-          jumpTimeCounter = jumpTime;
+                jumpTimeCounter = jumpTime;
           rb.velocity = Vector2.up * jumpForce;
       }
       //wall Jump rules
@@ -105,7 +111,8 @@ public class PlayerMoveController : MonoBehaviour {
         //rb.velocity = Vector2.up * jumpForce;
       }
       //double Jump
-      else if(canDoubleJump && doubleJumpAvailable){
+      //need power up, legal state, and charged Jump 
+      else if( hasDoubleJump && canDoubleJump && doubleJumpAvailable){
         rb.velocity = Vector2.up * doubleJumpSpeed;
         doubleJumpAvailable = false;
       }
@@ -166,21 +173,27 @@ public class PlayerMoveController : MonoBehaviour {
     }
     else{
       isWallSliding = false;
-    }
+            animator.SetBool("IsWallSliding", false);
+        }
   }
 
   private void ApplyWallSlide(){
     if(isWallSliding && rb.velocity.y < -wallSlideSpeed){
+            Debug.Log("Bobby is nice");
       rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
     }
   }
 
-
-  //TODO : update for 3/4 assets?
   private void Flip(){
       isFacingRight = !isFacingRight;
       transform.Rotate(0.0f, 180.0f, 0.0f);
       //use this to rotate character upside down when on a ceiling. 180 first.
+  }
+
+  private void KillPlayer(){
+    //move player back to Start
+    //zero out velocity
+    //remove powerups
   }
 
   private void CheckSurroundings(){
@@ -194,13 +207,19 @@ public class PlayerMoveController : MonoBehaviour {
 
     if(isGrounded || isTouchingLowerWall){
       isGliding = false;
-      //reset double jump when touching a wall or the ground
-      doubleJumpAvailable = true;
+            animator.SetBool("IsGliding", false);
+            //reset double jump when touching a wall or the ground
+            doubleJumpAvailable = true;
+            if (isGrounded == true)
+            {
+                animator.SetBool("IsInAir", false);
+            }
     }
     if(!isGrounded && !isWallSliding){
       //can double jump any time not touching a wall or the ground
       canDoubleJump = true;
-    }
+            animator.SetBool("IsInAir", true);
+        }
   }
 
   private void OnDrawGizmos(){
@@ -217,6 +236,14 @@ public class PlayerMoveController : MonoBehaviour {
       if(Input.GetKeyDown(KeyCode.LeftShift)){
         Debug.Log("CHANGING GLIDE");
         isGliding = !isGliding;
+            if(isGliding == true)
+            {
+                animator.SetBool("IsGliding", true);
+            }
+            if(isGliding == false)
+            {
+                animator.SetBool("IsGliding", false);
+            }
       }
       if (Input.GetKey(KeyCode.E))
       {
@@ -234,10 +261,11 @@ public class PlayerMoveController : MonoBehaviour {
       ){
         //Apply WallSlide movement rules
         ApplyWallSlide();
-      }
+            animator.SetBool("IsWallSliding", true);
+        }
       else{
-        //movement while gliding
-        if(isGliding){
+            //movement while gliding
+            if (isGliding){
           Debug.Log("GLIDING");
           int glideDirection = isFacingRight ? 1 : -1;
           rb.gravityScale = 0;
@@ -246,6 +274,7 @@ public class PlayerMoveController : MonoBehaviour {
         else{
           rb.gravityScale = 5;
           rb.position = (rb.position + new Vector2(moveInputDirection * speed * Time.deltaTime, 0));
+                animator.SetFloat("Speed", Mathf.Abs(moveInputDirection * speed * Time.deltaTime));
         }
       }
 
