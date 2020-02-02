@@ -20,6 +20,9 @@ public class PlayerMoveController : MonoBehaviour {
   public float minWallLeap;
   public float maxWallLeap;
 
+  private bool isWallSliding = false;
+  public float wallSlideSpeed;
+
   public Transform lowerWallCheck;
 
   public LayerMask whatIsWall;
@@ -44,7 +47,10 @@ public class PlayerMoveController : MonoBehaviour {
 
   void Update(){
     CheckSurroundings();
-    CheckJump();
+    ApplyMovement();
+    // CheckJump();
+    // CheckWallSlide();
+    // ApplyWallSlide();
   }
 
   private void FixedUpdate(){
@@ -53,14 +59,25 @@ public class PlayerMoveController : MonoBehaviour {
   }
 
   private void CheckJump(){
-    //if the player is on the ground and the user is pressing the space key
-    //the user can jump
-    if (isGrounded == true && Input.GetKeyDown(KeyCode.Space))
-    {
+    if(Input.GetKeyDown(KeyCode.Space)){
+      Debug.Log("JUMPING");
+      //if the player is on the ground and the user is pressing the space key
+      //the user can jump
+      if (isGrounded == true)
+      {
+          isJumping = true;
+          jumpTimeCounter = jumpTime;
+          rb.velocity = Vector2.up * jumpForce;
+      }
+      //wall Jump rules
+      else if(isWallSliding){
+        Debug.Log("WALL JUMP");
         isJumping = true;
         jumpTimeCounter = jumpTime;
         rb.velocity = Vector2.up * jumpForce;
+      }
     }
+
     //if the user is pressing the jump key but the user is already jumping
     if (Input.GetKey(KeyCode.Space) && isJumping == true)
     {
@@ -75,6 +92,7 @@ public class PlayerMoveController : MonoBehaviour {
             isJumping = false;
         }
     }
+
     //the user has stopped pressing the jump key
     if (Input.GetKeyUp(KeyCode.Space))
     {
@@ -82,7 +100,47 @@ public class PlayerMoveController : MonoBehaviour {
     }
   }
 
+  private void ApplyMovement(){
 
+    CheckJump();
+    CheckWallSlide();
+
+    //rules for ground movement
+    if(isGrounded){
+
+    }
+    //rules for wall movement
+    else if(isWallSliding){
+      //go no faster than the wallSlideSpeed
+      if(rb.velocity.y < -wallSlideSpeed){
+        rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+      }
+      //TODO: break from wall
+    }
+    //rules for air movement
+    else{
+
+    }
+  }
+
+  private void CheckWallSlide(){
+    // Debug.Log(isTouchingLowerWall);
+    // Debug.Log(!isGrounded);
+    // Debug.Log(rb.velocity.y);
+    if(isTouchingLowerWall && !isGrounded && rb.velocity.y < 0){
+      Debug.Log("WALL SLIDING");
+      isWallSliding = true;
+    }
+    else{
+      isWallSliding = false;
+    }
+  }
+
+  private void ApplyWallSlide(){
+    if(isWallSliding && rb.velocity.y < -wallSlideSpeed){
+      rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+    }
+  }
 
 
   //TODO : update for 3/4 assets?
@@ -111,7 +169,7 @@ public class PlayerMoveController : MonoBehaviour {
 
   private void CheckMoveInput()
   {
-      if(!Input.GetKey(KeyCode.S) || !Input.GetKey(KeyCode.Space))
+      //if(!Input.GetKey(KeyCode.S) || !Input.GetKey(KeyCode.Space))
       moveInputDirection = Input.GetAxisRaw("Horizontal");
       if (Input.GetKey(KeyCode.E))
       {
@@ -121,8 +179,18 @@ public class PlayerMoveController : MonoBehaviour {
       {
           moveInputDirection = Input.GetAxisRaw("Horizontal");
       }
+      if(
+      //you are trying to move right but you wall sliding into a wall on the right
+      (moveInputDirection == 1 &&  isFacingRight && isWallSliding) ||
+      //you are trying to move left but you wall sliding into a wall on the left
+      (moveInputDirection == -1 && !isFacingRight && isWallSliding)
+      ){
+        //don't do anything
+      }
+      else{
+        rb.position = (rb.position + new Vector2(moveInputDirection * speed * Time.deltaTime, 0));
+      }
 
-      rb.position = (rb.position + new Vector2(moveInputDirection * speed * Time.deltaTime, 0));
   }
 
   private void CheckMovementDirection()
