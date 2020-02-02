@@ -5,13 +5,17 @@ using UnityEngine;
 
 public class PlayerMoveController : MonoBehaviour {
 
+    public ParticleSystem respawn;
+    public ParticleSystem death;
+
   private Rigidbody2D rb;
 
   public float speed;
   private float moveInputDirection;
   private bool isFacingRight = true;
   private Vector2 startLocation = new Vector2(-3, 1);
-
+    public GameObject sail;
+    public GameObject thruster;
   //boundaries of map
   public float LOWER_BOUND_X = -100;
   public float UPPER_BOUND_X = 75;
@@ -204,8 +208,11 @@ public class PlayerMoveController : MonoBehaviour {
 
   private void KillPlayer(){
     adLib.Player(playerEffect.Dead, 1);
+        death.Play();
+
     //move player back to Start
     rb.position = startLocation;
+        respawn.Play();
     //zero out velocity
     rb.velocity = new Vector2(0,0);
     //remove powerups
@@ -261,7 +268,7 @@ public class PlayerMoveController : MonoBehaviour {
   {
       //if(!Input.GetKey(KeyCode.S) || !Input.GetKey(KeyCode.Space))
       moveInputDirection = Input.GetAxisRaw("Horizontal");
-      if(Input.GetKeyDown(KeyCode.LeftShift)){
+      if(Input.GetKeyDown(KeyCode.LeftShift) && hasGlide){
         Debug.Log("CHANGING GLIDE");
         isGliding = !isGliding;
             if(isGliding == true)
@@ -332,10 +339,12 @@ public class PlayerMoveController : MonoBehaviour {
     }
     else if(collision.gameObject.tag == "ship"){
       if(hasGlide){
-        //BOAZ DO SOMETHING HERE TO ADD GLIDER TO THE SHIP
-      }
+                //BOAZ DO SOMETHING HERE TO ADD GLIDER TO THE SHIP
+                sail.SetActive(true);
+            }
       if(hasDoubleJump){
-        //BOAZ DO SOMETHING HERE TO ADD THRUSTER TO SHIP
+                //BOAZ DO SOMETHING HERE TO ADD THRUSTER TO SHIP
+                thruster.SetActive(true);
       }
       //turn off all powerups
       hasGlide = false;
