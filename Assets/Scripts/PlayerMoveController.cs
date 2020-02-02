@@ -330,7 +330,7 @@ public class PlayerMoveController : MonoBehaviour {
       hasGlide = true;
       Destroy(collision.gameObject);
     }
-    else if(collision.gameObject.ship == "ship"){
+    else if(collision.gameObject.tag == "ship"){
       if(hasGlide){
         //BOAZ DO SOMETHING HERE TO ADD GLIDER TO THE SHIP
       }
@@ -340,6 +340,10 @@ public class PlayerMoveController : MonoBehaviour {
       //turn off all powerups
       hasGlide = false;
       hasDoubleJump = false;
+    }
+    else if(collision.gameObject.tag == "spike"){
+      //if you hit a spike you die
+      KillPlayer();
     }
 
   }
