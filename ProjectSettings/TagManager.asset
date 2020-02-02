@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GameManager
   - PauseFilter
+  - Spike
   layers:
   - Default
   - TransparentFX
