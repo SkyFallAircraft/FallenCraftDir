@@ -35,6 +35,9 @@ public class PlayerMoveController : MonoBehaviour {
   public float groundCheckRadius;
   public LayerMask whatIsGround;
 
+  private bool isGliding = false;
+  public float glideSpeedX;
+  public float glideSpeedY;
 
   private bool doOnce = false;
 
@@ -171,6 +174,10 @@ public class PlayerMoveController : MonoBehaviour {
   {
       //if(!Input.GetKey(KeyCode.S) || !Input.GetKey(KeyCode.Space))
       moveInputDirection = Input.GetAxisRaw("Horizontal");
+      if(Input.GetKeyDown(KeyCode.LeftShift)){
+        Debug.Log("CHANGING GLIDE");
+        isGliding = !isGliding;
+      }
       if (Input.GetKey(KeyCode.E))
       {
           moveInputDirection = 0;
@@ -188,7 +195,17 @@ public class PlayerMoveController : MonoBehaviour {
         //don't do anything
       }
       else{
-        rb.position = (rb.position + new Vector2(moveInputDirection * speed * Time.deltaTime, 0));
+        //movement while gliding
+        if(isGliding){
+          Debug.Log("GLIDING");
+          int glideDirection = isFacingRight ? 1 : -1;
+          rb.gravityScale = 0;
+          rb.position = (rb.position + new Vector2( glideDirection* glideSpeedX * Time.deltaTime, -glideSpeedY * Time.deltaTime));
+        }
+        else{
+          rb.gravityScale = 5;
+          rb.position = (rb.position + new Vector2(moveInputDirection * speed * Time.deltaTime, 0));
+        }
       }
 
   }
