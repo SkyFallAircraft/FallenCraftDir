@@ -4,27 +4,28 @@ using UnityEngine;
 
 public class CloudBehavior : MonoBehaviour
 {
-    ParticleSystem cloudParticle;
+    Rigidbody2D cloudParticle;
     public double timeLeftToSwitch = 10;
     double speed = 1;
-    double cloudSpeed;
+    float cloudSpeed = 1f;
     int check = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        cloudParticle = this.GetComponent<ParticleSystem>();
-        Debug.Log(cloudParticle.startSpeed);
-        cloudSpeed = 15;
+        cloudParticle = this.GetComponent<Rigidbody2D>();
+        cloudParticle.AddForce(new Vector2(1, 0));
+        Debug.Log(cloudParticle.velocity);
     }
 
     // Update is called once per frame
     void Update()
     {
-        timeLeftToSwitch -= Time.deltaTime * speed;
+        /*timeLeftToSwitch -= Time.deltaTime * speed;
         if (timeLeftToSwitch <= 0)
         {
             Debug.Log("switching");
+            Debug.Log(cloudParticle.velocity);
             if (cloudParticle.startSpeed >= cloudSpeed)
             {
                 Debug.Log("New Direction");
@@ -38,8 +39,8 @@ public class CloudBehavior : MonoBehaviour
 
             if (check == 1)
             {
-                cloudParticle.startSpeed -= Time.deltaTime * 3;
-                if (cloudParticle.startSpeed <= -cloudSpeed)
+                cloudParticle.AddForce(-Time.deltaTime * 3);
+                if (cloudParticle.velocity <= -cloudSpeed)
                 {
                     timeLeftToSwitch = 15;
                     check = 0;
@@ -54,6 +55,6 @@ public class CloudBehavior : MonoBehaviour
                     check = 0;
                 }
             }
-        }
+        }*/
     }
 }
