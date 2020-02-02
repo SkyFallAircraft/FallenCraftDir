@@ -5948,4 +5948,4 @@ MonoBehaviour:
   backgrounds:
   - {fileID: 5859352228331943606}
   - {fileID: 2002231946073565604}
-  smoothing: 1
+  smoothing: 1000
