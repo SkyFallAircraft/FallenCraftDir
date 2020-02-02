@@ -199,9 +199,11 @@ public class PlayerMoveController : MonoBehaviour {
         if(isGliding){
           Debug.Log("GLIDING");
           int glideDirection = isFacingRight ? 1 : -1;
+          rb.gravityScale = 0;
           rb.position = (rb.position + new Vector2( glideDirection* glideSpeedX * Time.deltaTime, -glideSpeedY * Time.deltaTime));
         }
         else{
+          rb.gravityScale = 5;
           rb.position = (rb.position + new Vector2(moveInputDirection * speed * Time.deltaTime, 0));
         }
       }
