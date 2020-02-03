@@ -6,8 +6,8 @@ using UnityEngine;
 //Audio Lists
 public enum playerEffect { Dead, Slide, Jump, Walk }
 public enum powerup { Glider, Thruster, Anchor, Cloud }
-public enum music { MainMenu, Background, Win }
-public enum misc { Repair, Crashing, }
+public enum music { Wind, Background, Win }
+public enum misc { Repair, Crashing, Button}
 
 public class AudioLibrary : MonoBehaviour
 {
@@ -68,19 +68,27 @@ public class AudioLibrary : MonoBehaviour
     /// <param name="s">What clip are we playing</param>
     /// <param name="playing">Is the clip playing</param>
     /// <param name="volume">What is the audio sources volume</param>
-    public void MusicSounds(music s, bool playing, float volume)
+    public void MusicSounds(music s, bool playing, float volume, bool isOneShot)
     {
         musicPlayer.clip = music[(int)s];
         Debug.Log("current s: " + s.ToString() + ", music player: " + musicPlayer.name);
-        if (playing && !musicPlayer.isPlaying)
+        if (isOneShot && playing)
         {
             musicPlayer.volume = volume;
-            musicPlayer.Play();
-            Debug.Log("is playing");
+            musicPlayer.PlayOneShot(music[(int)s]);
         }
-        else if (!playing)
+        else
         {
-            musicPlayer.Stop();
+            if (playing && !musicPlayer.isPlaying)
+            {
+                musicPlayer.volume = volume;
+                musicPlayer.Play();
+                Debug.Log("is playing");
+            }
+            else if (!playing)
+            {
+                musicPlayer.Stop();
+            }
         }
     }
     public void MusicSounds(music s, bool playing)
