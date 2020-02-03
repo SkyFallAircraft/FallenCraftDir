@@ -7,8 +7,9 @@ public class PlayerMoveController : MonoBehaviour {
 
     public ParticleSystem respawn;
     public ParticleSystem death;
+    public ParticleSystem thrusterPart;
 
-  private Rigidbody2D rb;
+    private Rigidbody2D rb;
 
   public float speed;
   private float moveInputDirection;
@@ -130,6 +131,8 @@ public class PlayerMoveController : MonoBehaviour {
       //need power up, legal state, and charged Jump
       else if( hasDoubleJump && canDoubleJump && doubleJumpAvailable){
         rb.velocity = Vector2.up * doubleJumpSpeed;
+                Instantiate(thrusterPart);
+                thrusterPart.Play();
         doubleJumpAvailable = false;
       }
     }
@@ -208,10 +211,10 @@ public class PlayerMoveController : MonoBehaviour {
 
   private void KillPlayer(){
     adLib.Player(playerEffect.Dead, 1);
-        death.Play();
 
     //move player back to Start
     rb.position = startLocation;
+        Instantiate(respawn);
         respawn.Play();
     //zero out velocity
     rb.velocity = new Vector2(0,0);
