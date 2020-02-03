@@ -11,6 +11,7 @@ TagManager:
   - ship
   - glide
   - doubleJump
+  - Ground
   layers:
   - Default
   - TransparentFX
