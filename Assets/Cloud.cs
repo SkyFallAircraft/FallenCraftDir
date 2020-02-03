@@ -125,7 +125,7 @@ public class Cloud : MonoBehaviour
             
             
         }
-        if (player.GetComponent<TestScript>().isJumping == true)
+        if (player.GetComponent<PlayerMoveController>().isJumping == true)
         {
             player.transform.SetParent(null);
         }

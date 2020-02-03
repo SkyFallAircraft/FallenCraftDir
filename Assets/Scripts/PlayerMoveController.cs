@@ -8,6 +8,10 @@ public class PlayerMoveController : MonoBehaviour {
     public ParticleSystem respawn;
     public ParticleSystem death;
     public ParticleSystem thrusterPart;
+    public GameObject doublejumpItem;
+    public Transform doublejumpItemSpawn;
+    public GameObject gliderItem;
+    public Transform gliderItemSpawn;
 
     private Rigidbody2D rb;
 
@@ -25,7 +29,7 @@ public class PlayerMoveController : MonoBehaviour {
 
   public Animator animator;
 
-  private bool isJumping;
+  public bool isJumping;
   public float jumpForce;
   private float jumpTimeCounter;
   public float jumpTime;
@@ -218,6 +222,17 @@ public class PlayerMoveController : MonoBehaviour {
         respawn.Play();
     //zero out velocity
     rb.velocity = new Vector2(0,0);
+
+        if (hasGlide)
+        {
+            //instantiate glider
+            Instantiate(gliderItem, gliderItemSpawn.position, Quaternion.identity);
+        }
+        if (hasDoubleJump)
+        {
+            //instatiate doubleJump
+            Instantiate(doublejumpItem, doublejumpItemSpawn.position, Quaternion.identity);
+        }
     //remove powerups
     hasGlide = false;
     hasHookShot = false;
