@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class Clickable_QuitNode : Clickable
 {
+    GameManager gMan;
+
+    private void Start()
+    {
+        gMan = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+    }
 
     public Color highlightColor;
 
     public override void OnClick()
     {
+        gMan.GetComponent<AudioLibrary>().Misc(misc.Button, 1);
         Application.Quit();
     }
     public override void OnHover()

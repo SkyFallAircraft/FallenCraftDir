@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 319a052356ffdf6428b8bb4e65a531cb
   - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 90fe5272f86e8bf499301e86fb41ab9f
+  - enabled: 1
     path: Assets/Scenes/Boaz/GliderLevel.unity
     guid: 460fd0db45bcb1e479e90771733c6acd
   m_configObjects: {}
