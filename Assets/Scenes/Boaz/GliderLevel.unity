@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11559,7 +11559,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 100
+  field of view: 40
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -11585,7 +11585,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 878562361}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3, y: 1.28, z: -10.1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3462681376878503106}
@@ -20600,6 +20600,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8680649256914429147, guid: cdfce66ca9a25f642991fbfa336da4e3,
         type: 3}
+    - target: {fileID: 6877045521269110831, guid: 930f1ff3d5d4805429269f761545d6b6,
+        type: 3}
+      propertyPath: glideSpeedX
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877045521269110831, guid: 930f1ff3d5d4805429269f761545d6b6,
+        type: 3}
+      propertyPath: minWallLeap
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877045521269110831, guid: 930f1ff3d5d4805429269f761545d6b6,
+        type: 3}
+      propertyPath: maxWallLeap
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 6877045521863614181, guid: 930f1ff3d5d4805429269f761545d6b6,
         type: 3}
       propertyPath: m_LocalPosition.y
